@@ -15,9 +15,8 @@ public class ItemService {
     private final ItemRepository itemRepository;
 
     @Transactional
-    public Item saveItem(Item item) {
+    public void saveItem(Item item) {
         itemRepository.save(item);
-        return item;
     }
 
     public List<Item> findItem() {
