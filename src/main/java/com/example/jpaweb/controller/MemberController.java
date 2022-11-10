@@ -48,4 +48,12 @@ public class MemberController {
         return "members/memberList";
     }
 
+    @GetMapping("/membersdto")
+    public String dtolist(Model model) {
+        List<Member> members = memberService.findMembers();
+        model.addAttribute("members", members);
+        return "members/memberList";
+    }
+
+
 }
