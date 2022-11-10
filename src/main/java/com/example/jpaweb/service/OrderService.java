@@ -5,9 +5,12 @@ import com.example.jpaweb.domain.item.Item;
 import com.example.jpaweb.repository.ItemRepository;
 import com.example.jpaweb.repository.MemberRepository;
 import com.example.jpaweb.repository.OrderRepository;
+import com.example.jpaweb.repository.OrderSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -56,11 +59,9 @@ public class OrderService {
         order.cancel();
     }
 
-    // 검색
-    /*
+
     public List<Order> findOrders(OrderSearch orderSearch) {
-        return orderRepository.findAll(orderSearch);
+        return orderRepository.findAllByString(orderSearch);
     }
-    */
 
 }
