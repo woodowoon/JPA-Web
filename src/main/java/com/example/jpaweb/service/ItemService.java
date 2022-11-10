@@ -1,6 +1,5 @@
 package com.example.jpaweb.service;
 
-import com.example.jpaweb.domain.item.Book;
 import com.example.jpaweb.domain.item.Item;
 import com.example.jpaweb.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +29,7 @@ public class ItemService {
         return findItem;
     }
 
-    public List<Item> findItem() {
+    public List<Item> findItems() {
         return itemRepository.findAll();
     }
 
