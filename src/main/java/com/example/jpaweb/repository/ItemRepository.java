@@ -18,6 +18,7 @@ public class ItemRepository {
         if(item.getId() == null) {
             em.persist(item);
         } else {
+            // merge 넌 누구냐, 근데 실무에서는 잘 사용할 일이 없다.
             em.merge(item); // update 랑 비슷한거다~ 라고 생각하자
         }
     }
