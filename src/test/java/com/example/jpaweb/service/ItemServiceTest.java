@@ -99,4 +99,20 @@ class ItemServiceTest {
         Assertions.assertThat(result.getId()).isEqualTo(item1.getId());
     }
 
+    @Test
+    public void 아이템_수정() throws Exception {
+        // 아이템을 등록하고 수정하고 조회한대로 되었는지 equal 테스트
+        // given
+        Item book = new Book();
+        book.setName("책책");
+        itemService.saveItem(book);
+        // when
+        Item updateBook = itemService.updateItem(book.getId(), "책1", 1000, 10);
+
+        Item findOne = itemService.findOne(book.getId());
+
+        // then
+        Assertions.assertThat(findOne.getName()).isEqualTo(updateBook.getName());
+    }
+
 }
