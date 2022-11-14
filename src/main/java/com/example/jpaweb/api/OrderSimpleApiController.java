@@ -39,9 +39,20 @@ public class OrderSimpleApiController {
     @GetMapping("/api/v2/simple-orders")
     public List<SimpleOrderDto> ordersV2() {
         // Order 2개
-        // N + 1 -> 1 + 회원 N + 배송 N 
+        // N + 1 -> 1 + 회원 N + 배송 N
         List<Order> orders = orderRepository.findAllByString(new OrderSearch());
 
+        List<SimpleOrderDto> result = orders.stream()
+                .map(o -> new SimpleOrderDto(o))
+                .collect(Collectors.toList());
+
+        return result;
+    }
+
+    // 패치조인을 활용해서 N + 1 문제를 해결한다.
+    @GetMapping("/api/v3/simple-orders")
+    public List<SimpleOrderDto> ordersV3() {
+        List<Order> orders = orderRepository.findAllWithMemberDelivery();
         List<SimpleOrderDto> result = orders.stream()
                 .map(o -> new SimpleOrderDto(o))
                 .collect(Collectors.toList());
