@@ -1,8 +1,7 @@
 package com.example.jpaweb.repository;
 
-import com.example.jpaweb.domain.Member;
+import com.example.jpaweb.api.OrderSimpleApiController;
 import com.example.jpaweb.domain.Order;
-import com.example.jpaweb.domain.OrderStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -112,4 +111,13 @@ public class OrderRepository {
         TypedQuery<Order> query = em.createQuery(cq).setMaxResults(1000); //최대 1000건
         return query.getResultList();
     }
+
+    public List<Order> findAllWithMemberDelivery() {
+        return em.createQuery(
+                "select o from Order o" +
+                        " join fetch o.member m " +
+                        " join fetch o.delivery d", Order.class
+        ).getResultList();
+    }
+
 }
