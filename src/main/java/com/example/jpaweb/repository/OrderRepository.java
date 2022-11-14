@@ -1,8 +1,7 @@
 package com.example.jpaweb.repository;
 
-import com.example.jpaweb.domain.Member;
+import com.example.jpaweb.api.OrderSimpleApiController;
 import com.example.jpaweb.domain.Order;
-import com.example.jpaweb.domain.OrderStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
