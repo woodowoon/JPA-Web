@@ -120,4 +120,13 @@ public class OrderRepository {
         ).getResultList();
     }
 
+    public List<Order> findAllWithItem() { // 1대다 에서는 페이징처리가 불가능하다.
+        return em.createQuery(
+                "select distinct o from Order o" +
+                " join fetch o.member m" +
+                " join fetch o.delivery d" +
+                " join fetch o.orderItems oi" +
+                " join fetch oi.item i", Order.class
+                ).getResultList();
+    }
 }

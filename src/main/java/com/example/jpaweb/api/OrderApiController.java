@@ -21,6 +21,7 @@ public class OrderApiController {
 
     private final OrderRepository orderRepository;
 
+    // V1 : 엔티티 직접 노출
     // @GetMapping("/api/v1/orders")
     // 이게 안되는 이유는 제이슨이그노어를 해줬어야 했는데, 그 작업을 안해줘서 인 것 같다.
     public List<Order> ordersV1() {
@@ -35,6 +36,8 @@ public class OrderApiController {
         return all;
     }
 
+    // V2 : 엔티티를 DTO로 변환
+    // 근데 성능상 많은 쿼리가 나가기 때문에 좋지 않다. 따라서, 패치 조인을 활용해서 성능 최적화를 해보려고 한다.
     @GetMapping("/api/v2/orders")
     public List<OrderDto> ordersV2() {
         List<Order> orders = orderRepository.findAllByString(new OrderSearch());
@@ -44,6 +47,19 @@ public class OrderApiController {
 
         return collect;
     }
+
+    // 패치조인은 페이징 처리가 불가능하다.
+    @GetMapping("/api/v3/orders")
+    public List<OrderDto> orersV2() {
+        List<Order> orders = orderRepository.findAllWithItem();
+
+        List<OrderDto> result = orders.stream()
+                .map(o -> new OrderDto(o))
+                .collect(Collectors.toList());
+
+        return result;
+    }
+
 
     @Getter
     static class OrderDto {
