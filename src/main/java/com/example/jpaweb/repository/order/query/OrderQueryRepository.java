@@ -76,4 +76,15 @@ public class OrderQueryRepository {
                         " join o.delivery d", OrderQueryDto.class).getResultList();
     }
 
+    public List<OrderFlatDto> findAllByDto_flat() { // 쿼리문이 1개 나오게된다. // 데이터가 중복으로 나온다.itemName 은 다른 데이터들이다.
+        return em.createQuery(
+                "select new " +
+                        " com.example.jpaweb.repository.order.query.OrderFlatDto(o.id, m.name, o.orderDate, o.status, d.address, i.name, oi.orderPrice, oi.count)" +
+                        " from Order o" +
+                        " join o.member m" +
+                        " join o.delivery d" +
+                        " join o.orderItems oi" +
+                        " join oi.item i ", OrderFlatDto.class)
+                .getResultList();
+    }
 }
