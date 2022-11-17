@@ -2,6 +2,11 @@ package com.example.jpaweb.repository;
 
 import com.example.jpaweb.api.OrderSimpleApiController;
 import com.example.jpaweb.domain.Order;
+import com.example.jpaweb.domain.OrderStatus;
+import com.example.jpaweb.domain.QMember;
+import com.example.jpaweb.domain.QOrder;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -24,7 +29,7 @@ public class OrderRepository {
     public Order findOne(Long id) {
         return em.find(Order.class, id);
     }
-    public List<Order> findAll(OrderSearch orderSearch) {
+    public List<Order> findAll1(OrderSearch orderSearch) {
         /*
         return em.createQuery("select o from Order o join o.member m" +
                 " where o.status = :status " +
@@ -110,6 +115,37 @@ public class OrderRepository {
         cq.where(cb.and(criteria.toArray(new Predicate[criteria.size()])));
         TypedQuery<Order> query = em.createQuery(cq).setMaxResults(1000); //최대 1000건
         return query.getResultList();
+    }
+
+    // querydsl
+    public List<Order> findAllQueryDsl(OrderSearch orderSearch) {
+        JPAQueryFactory query = new JPAQueryFactory(em);
+        QOrder order = QOrder.order;
+        QMember member = QMember.member;
+
+        return query
+                .select(order)
+                .from(order)
+                .join(order.member, member)
+                // .where(statusEq(orderSearch.getOrderStatus())) // 동적쿼리
+                // .where(statusEq(orderSearch.getOrderStatus()), member.name.like(orderSearch.getMemberName())) // 정적쿼리
+                .where(statusEq(orderSearch.getOrderStatus()), nameLike(orderSearch.getMemberName())) // 동적쿼리로 변환
+                .limit(1000)
+                .fetch();
+    }
+
+    private static BooleanExpression nameLike(String memberName) {
+        if (!StringUtils.hasText(memberName)){
+            return null;
+        }
+        return QMember.member.name.like(memberName);
+    }
+
+    private BooleanExpression statusEq(OrderStatus statusCode) {
+        if(statusCode == null) {
+            return null;
+        }
+        return QOrder.order.status.eq(statusCode);
     }
 
     public List<Order> findAllWithMemberDelivery() {
