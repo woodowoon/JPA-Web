@@ -1,7 +1,7 @@
 package com.example.jpaweb.service;
 
 import com.example.jpaweb.domain.Member;
-import com.example.jpaweb.repository.MemberRepository;
+import com.example.jpaweb.repository.MemberRepositoryOld;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 class MemberServiceTest {
 
     @Autowired MemberService memberService;
-    @Autowired MemberRepository memberRepository;
+    @Autowired
+    MemberRepositoryOld memberRepository;
 
     @Test
     public void 회원가입() throws Exception {

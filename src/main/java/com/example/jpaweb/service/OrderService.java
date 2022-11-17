@@ -3,7 +3,7 @@ package com.example.jpaweb.service;
 import com.example.jpaweb.domain.*;
 import com.example.jpaweb.domain.item.Item;
 import com.example.jpaweb.repository.ItemRepository;
-import com.example.jpaweb.repository.MemberRepository;
+import com.example.jpaweb.repository.MemberRepositoryOld;
 import com.example.jpaweb.repository.OrderRepository;
 import com.example.jpaweb.repository.OrderSearch;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.List;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final MemberRepository memberRepository;
+    private final MemberRepositoryOld memberRepository;
     private final ItemRepository itemRepository;
 
     // 주문
